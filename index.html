@@ -28,9 +28,13 @@
         <div class="text-center mb-5 animate-fade-in">
             <h1 class="display-4 fw-bold gradient-text mb-3">تالادوز</h1>
             <p class="lead text-muted fs-5">محاسبه‌گر هوشمند دوز داروهای آهن‌زدای تالاسمی</p>
-            <div class="alert alert-danger rounded-4 shadow mt-3">
-                <strong>⚠️ هشدار:</strong> فقط کمکی — با پزشک مشورت کنید. منابع: NIH/ASH ۲۰۲۵، TIF Guidelines.
-            </div>
+<!-- هشدار قوی‌تر و کامل‌تر -->
+<div class="alert alert-danger rounded-4 shadow-sm mt-4 text-center fs-6">
+    <strong>هشدار بسیار مهم:</strong><br>
+    این برنامه فقط برای <u>محاسبه کمکی و آموزشی</u> طراحی شده و <strong>جایگزین نظر پزشک متخصص نیست</strong>.<br>
+    دوز نهایی باید حتماً توسط هماتولوژیست تأیید شود.<br>
+    منابع: NIH, ASH 2025, TIF Guidelines, Lancet Haematology
+</div>
         </div>
 
         <!-- فرم -->
@@ -74,15 +78,16 @@
                         </div>
                     </div>
 
-                    <div class="mt-4">
-                        <label class="form-label fw-bold">نوع تالاسمی</label>
-                        <div class="btn-group w-100" role="group">
-                            <input type="radio" class="btn-check" name="type" id="transfusion" value="transfusion" checked>
-                            <label class="btn btn-outline-primary" for="transfusion">وابسته به تزریق</label>
-                            <input type="radio" class="btn-check" name="type" id="nontransfusion" value="non-transfusion">
-                            <label class="btn btn-outline-primary" for="nontransfusion">غیروابسته</label>
-                        </div>
-                    </div>
+<!-- نوع تالاسمی — پیش‌فرض: وابسته به تزریق -->
+<div class="mt-4">
+    <label class="form-label fw-bold">نوع تالاسمی</label>
+    <div class="btn-group w-100" role="group">
+        <input type="radio" class="btn-check" name="type" id="transfusion" value="transfusion" checked>
+        <label class="btn btn-primary px-4 py-3" for="transfusion">وابسته به تزریق خون</label>
+        <input type="radio" class="btn-check" name="type" id="nontransfusion" value="non-transfusion">
+        <label class="btn btn-outline-primary px-4 py-3" for="nontransfusion">غیروابسته</label>
+    </div>
+</div>
 
                     <button type="submit" class="btn btn-primary w-100 rounded-3 py-3 mt-4 fs-5">
                         <i class="bi bi-calculator me-2"></i>محاسبه دوز
@@ -144,10 +149,17 @@
             </div>
         </div>
 
-        <footer class="text-center mt-5 text-muted">
-            <p>طراحی توسط <strong>حسین حوت</strong></p>
-            <p><a href="https://wa.me/989031375909" class="text-success">واتساپ: 09031375909</a> — انتقادات و پیشنهادات</p>
-        </footer>
+<!-- فوتر مرتب و شیک -->
+<footer class="text-center mt-5">
+    <p class="mb-2 fs-5 fw-bold text-primary">تالادوز — اپ هوشمند محاسبه دوز داروهای بیماران تالاسمی</p>
+    <p class="mb-1">طراحی و توسعه توسط <strong>حسین حوت گنج آبادی</strong></p>
+    <p>
+        <a href="https://wa.me/989031375909" target="_blank" class="btn btn-success rounded-pill px-4 py-2 shadow">
+            <i class="bi bi-whatsapp me-2"></i>09031375909
+        </a>
+    </p>
+    <small class="text-muted d-block mt-2">جهت دریافت انتقادات، پیشنهادات و ایده‌های شما</small>
+</footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
