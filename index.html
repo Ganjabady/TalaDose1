@@ -1,169 +1,141 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl" class="light-theme">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تالادوز | محاسبه‌گر هوشمند دوز آهن‌زدای تالاسمی — ۲۰۲۵</title>
-    <meta name="description" content="دوز دقیق و هوشمند دفروکسامین، دفراسیروکس، دفریپرون — اپ پزشکی تک برای بیماران تالاسمی">
+    <title>تالادوز | محاسبه‌گر هوشمند دوز آهن‌زدای تالاسمی</title>
+    <meta name="description" content="دوز دقیق دفروکسامین، دفراسیروکس، دفریپرون — اپ پزشکی برای تالاسمی">
     
-    <!-- Favicon از repoت -->
+    <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/Ganjabady/TalaDose/5558bfd49b93a40b376ff43a2d3673873f04ccdf/fav.png">
     <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/Ganjabady/TalaDose/5558bfd49b93a40b376ff43a2d3673873f04ccdf/fav.png">
 
-    <!-- PWA Manifest برای تک بودن (آفلاین) -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1976d2">
-    
-    <!-- Fonts + Bootstrap 5 + Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Fonts + Bootstrap + Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="light-theme">
     <!-- Dark Mode Toggle -->
-    <button id="themeToggle" class="btn btn-sm position-fixed top-0 end-0 m-3 rounded-circle shadow" style="z-index: 9999;">
-        <i class="bi bi-moon-stars-fill"></i>
+    <button id="themeToggle" class="btn btn-sm position-fixed top-0 end-0 m-3 rounded-circle shadow" style="z-index: 9999; background: #1976d2; color: white;">
+        <i class="bi bi-moon"></i>
     </button>
 
     <div class="container py-5">
-        <!-- هدر مدرن -->
+        <!-- هدر -->
         <div class="text-center mb-5 animate-fade-in">
-            <div class="d-flex justify-content-center align-items-center mb-3">
-                <img src="https://raw.githubusercontent.com/Ganjabady/TalaDose/5558bfd49b93a40b376ff43a2d3673873f04ccdf/fav.png" alt="لوگو تالادوز" class="me-2" style="width: 50px; height: 50px;">
-                <h1 class="display-3 fw-bold gradient-text mb-0">تالادوز</h1>
-            </div>
-            <p class="lead text-muted fs-4">اپ هوشمند محاسبه دوز آهن‌زداها — برای زندگی بهتر تالاسمی</p>
-            <div class="alert alert-danger rounded-4 shadow-sm mt-4 fs-6">
-                <strong>⚠️ هشدار:</strong> فقط کمکی — دوز نهایی با پزشک. منابع: NIH/ASH ۲۰۲۵، TIF Guidelines.
+            <h1 class="display-4 fw-bold gradient-text mb-3">تالادوز</h1>
+            <p class="lead text-muted fs-5">محاسبه‌گر هوشمند دوز داروهای آهن‌زدای تالاسمی</p>
+            <div class="alert alert-danger rounded-4 shadow mt-3">
+                <strong>⚠️ هشدار:</strong> فقط کمکی — با پزشک مشورت کنید. منابع: NIH/ASH ۲۰۲۵، TIF Guidelines.
             </div>
         </div>
 
-        <!-- فرم مدرن با validation -->
-        <div class="card border-0 shadow-glow rounded-4 animate-slide-up">
-            <div class="card-body p-4 p-lg-5">
-                <form id="calcForm" novalidate>
+        <!-- فرم -->
+        <div class="card border-0 shadow-lg rounded-4">
+            <div class="card-body p-4 p-md-5">
+                <form id="calcForm">
                     <div class="row g-4">
-                        <div class="col-lg-6">
-                            <label class="form-label fw-bold fs-5"><i class="bi bi-pills me-2 text-primary"></i>دارو</label>
-                            <select id="drug" class="form-select form-select-lg rounded-3" required>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold fs-6">دارو</label>
+                            <select id="drug" class="form-select rounded-3" required>
                                 <option value="">انتخاب کنید...</option>
-                                <option value="deferoxamine">دفروکسامین (دسفرال، دسفوناک، Hospira)</option>
-                                <option value="deferasirox">دفراسیروکس (اکسجید، جیدنیو، اسورال، تالاجید)</option>
-                                <option value="deferiprone">دفریپرون (ال‌وان — اوه سینا)</option>
+                                <option value="deferoxamine">دفروکسامین</option>
+                                <option value="deferasirox">دفراسیروکس</option>
+                                <option value="deferiprone">دفریپرون</option>
                             </select>
-                            <div class="invalid-feedback">لطفاً دارو انتخاب کنید.</div>
                         </div>
-                        <div class="col-lg-6" id="brandGroup" style="display:none;">
-                            <label class="form-label fw-bold fs-5"><i class="bi bi-tag me-2 text-success"></i>برند موجود</label>
-                            <select id="brand" class="form-select form-select-lg rounded-3">
-                                <option value="">اختیاری</option>
+                        <div class="col-md-6" id="brandGroup" style="display:none;">
+                            <label class="form-label fw-bold fs-6">برند (اختیاری)</label>
+                            <select id="brand" class="form-select rounded-3">
+                                <option value="">—</option>
                             </select>
-                            <div class="invalid-feedback">برند انتخاب کنید.</div>
                         </div>
                     </div>
 
                     <div class="row g-4 mt-3">
                         <div class="col-md-4">
-                            <label class="form-label fw-bold"><i class="bi bi-person me-2 text-info"></i>وزن (kg)</label>
-                            <input type="number" id="weight" class="form-control form-control-lg text-center fw-bold" value="50" min="3" step="0.1" required>
-                            <div class="invalid-feedback">وزن معتبر وارد کنید.</div>
+                            <label class="form-label fw-bold">وزن (kg)</label>
+                            <input type="number" id="weight" class="form-control text-center" value="50" min="3" step="0.1" required>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-bold"><i class="bi bi-calendar me-2 text-warning"></i>سن (سال)</label>
-                            <input type="number" id="age" class="form-control form-control-lg text-center fw-bold" value="25" min="1" required>
-                            <div class="invalid-feedback">سن معتبر وارد کنید.</div>
+                            <label class="form-label fw-bold">سن (سال)</label>
+                            <input type="number" id="age" class="form-control text-center" value="25" min="1" required>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-bold"><i class="bi bi-droplet me-2 text-danger"></i>فریتین (ng/mL)</label>
-                            <input type="number" id="ferritin" class="form-control form-control-lg text-center fw-bold" value="1800" min="0" required>
-                            <div class="progress mt-2 rounded-pill" style="height: 8px;">
-                                <div class="progress-bar rounded-pill" id="ferritinBar" role="progressbar"></div>
+                            <label class="form-label fw-bold">فریتین (ng/mL)</label>
+                            <input type="number" id="ferritin" class="form-control text-center" value="1800" min="0" required>
+                            <div class="progress mt-2" style="height:8px;">
+                                <div class="progress-bar" id="ferritinBar"></div>
                             </div>
-                            <div id="ferritinMsg" class="mt-2 fw-bold text-center small"></div>
-                            <div class="invalid-feedback">فریتین وارد کنید.</div>
+                            <div id="ferritinMsg" class="small text-center mt-1"></div>
                         </div>
                     </div>
 
-                    <div class="row g-3 mt-4">
-                        <div class="col-12">
-                            <label class="form-label fw-bold fs-5"><i class="bi bi-syringe me-2 text-secondary"></i>نوع تالاسمی</label>
-                            <div class="btn-group w-100 rounded-3 overflow-hidden" role="group">
-                                <input type="radio" class="btn-check" name="type" id="transfusion" value="transfusion" checked required>
-                                <label class="btn btn-outline-primary rounded-start rounded-3 px-4 py-3" for="transfusion">وابسته به تزریق خون</label>
-                                <input type="radio" class="btn-check" name="type" id="nontransfusion" value="non-transfusion">
-                                <label class="btn btn-outline-primary rounded-end rounded-3 px-4 py-3" for="nontransfusion">غیروابسته به تزریق</label>
-                            </div>
-                            <div class="invalid-feedback d-block">نوع تالاسمی انتخاب کنید.</div>
+                    <div class="mt-4">
+                        <label class="form-label fw-bold">نوع تالاسمی</label>
+                        <div class="btn-group w-100" role="group">
+                            <input type="radio" class="btn-check" name="type" id="transfusion" value="transfusion" checked>
+                            <label class="btn btn-outline-primary" for="transfusion">وابسته به تزریق</label>
+                            <input type="radio" class="btn-check" name="type" id="nontransfusion" value="non-transfusion">
+                            <label class="btn btn-outline-primary" for="nontransfusion">غیروابسته</label>
                         </div>
                     </div>
 
-                    <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-primary btn-lg px-6 py-3 rounded-pill shadow-glow fs-4 fw-bold loading-btn">
-                            <span class="btn-text"><i class="bi bi-calculator-fill me-2"></i>محاسبه دوز</span>
-                            <span class="spinner-border spinner-border-sm ms-2 d-none" role="status"></span>
-                        </button>
-                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-3 py-3 mt-4 fs-5">
+                        <i class="bi bi-calculator me-2"></i>محاسبه دوز
+                    </button>
                 </form>
 
-                <!-- نتیجه — کادر دوز تک و ثابت -->
-                <div id="result" class="mt-5 d-none animate-slide-up">
-                    <div class="text-center mb-4">
-                        <i class="bi bi-heart-fill text-success fs-1"></i>
-                        <h2 class="fw-bold mt-2">دوز پیشنهادی شما</h2>
-                    </div>
-
-                    <div class="dose-card position-relative rounded-4 overflow-hidden shadow-glow mb-4">
-                        <div class="dose-bg"></div>
-                        <div class="p-4 p-lg-5 text-center text-white position-relative z-2">
-                            <h1 class="display-5 fw-bold mb-3" id="doseTitle">—</h1>
-                            <div class="row g-4 justify-content-center">
-                                <div class="col-md-5 col-12">
-                                    <div class="bg-white bg-opacity-10 backdrop-blur rounded-3 p-3 border border-white border-opacity-20">
-                                        <small class="text-white-50">دوز به ازای هر کیلو</small>
-                                        <h4 class="fw-bold mb-0" id="dosePerKg">—</h4>
-                                    </div>
-                                </div>
-                                <div class="col-md-5 col-12">
-                                    <div class="bg-white bg-opacity-10 backdrop-blur rounded-3 p-3 border border-white border-opacity-20">
-                                        <small class="text-white-50">تعداد ویال/قرص</small>
-                                        <div id="unitCount">—</div>
-                                    </div>
+                <!-- نتیجه -->
+                <div id="result" class="mt-5 d-none">
+                    <div class="dose-card p-4 rounded-4 text-white mb-4">
+                        <h3 class="text-center mb-3" id="doseTitle">—</h3>
+                        <div class="row text-center g-3">
+                            <div class="col-md-6">
+                                <div class="bg-white bg-opacity-10 rounded-3 p-3">
+                                    <small class="opacity-75">دوز به ازای کیلو</small>
+                                    <h4 class="mb-0" id="dosePerKg">—</h4>
                                 </div>
                             </div>
-                            <div class="mt-4">
-                                <p class="fs-5 fw-medium mb-0" id="howToUse">—</p>
+                            <div class="col-md-6">
+                                <div class="bg-white bg-opacity-10 rounded-3 p-3">
+                                    <small class="opacity-75">تعداد ویال/قرص</small>
+                                    <div id="unitCount">—</div>
+                                </div>
                             </div>
                         </div>
+                        <p class="text-center mt-3 fs-6" id="howToUse">—</p>
                     </div>
 
-                    <div class="alert alert-info rounded-4 shadow-sm text-center fs-6 mb-4">
-                        <strong>💡 نکته:</strong> حتماً با پزشک چک کنید — این فقط محاسبه کمکی است.
+                    <div class="alert alert-warning text-center">
+                        <strong>⚠️</strong> حتماً با پزشک چک کنید — این فقط محاسبه کمکی است.
                     </div>
 
                     <div class="row g-4">
                         <div class="col-md-4">
-                            <div class="card border-0 rounded-3 h-100 shadow-sm">
+                            <div class="card h-100">
                                 <div class="card-body">
-                                    <h6 class="fw-bold text-primary mb-2"><i class="bi bi-gear-fill me-2"></i>مکانیسم عمل</h6>
-                                    <p id="mechanism" class="small text-muted mb-0">—</p>
+                                    <h6 class="fw-bold text-primary">مکانیسم عمل</h6>
+                                    <p id="mechanism" class="small text-muted">—</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="card border-0 rounded-3 h-100 shadow-sm">
+                            <div class="card h-100">
                                 <div class="card-body">
-                                    <h6 class="fw-bold text-warning mb-2"><i class="bi bi-exclamation-triangle-fill me-2"></i>تداخلات</h6>
-                                    <p id="interactions" class="small text-muted mb-0">—</p>
+                                    <h6 class="fw-bold text-warning">تداخلات</h6>
+                                    <p id="interactions" class="small text-muted">—</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="card border-0 rounded-3 h-100 shadow-sm">
+                            <div class="card h-100">
                                 <div class="card-body">
-                                    <h6 class="fw-bold text-danger mb-2"><i class="bi bi-heart-pulse-fill me-2"></i>نظارت</h6>
-                                    <p id="monitoring" class="small text-muted mb-0">—</p>
+                                    <h6 class="fw-bold text-danger">نظارت</h6>
+                                    <p id="monitoring" class="small text-muted">—</p>
                                 </div>
                             </div>
                         </div>
@@ -172,15 +144,9 @@
             </div>
         </div>
 
-        <!-- فوتر -->
         <footer class="text-center mt-5 text-muted">
-            <p class="mb-2 fs-5 fw-bold">تالادوز — اپ تک برای تالاسمی</p>
-            <p class="mb-0">
-                <a href="https://wa.me/989031375909" target="_blank" class="text-success fw-bold">
-                    <i class="bi bi-whatsapp me-1"></i>090313759909
-                </a>
-                <br><small>انتقادات، پیشنهادات و ایده‌ها</small>
-            </p>
+            <p>طراحی توسط <strong>حسین حوت</strong></p>
+            <p><a href="https://wa.me/989031375909" class="text-success">واتساپ: 09031375909</a> — انتقادات و پیشنهادات</p>
         </footer>
     </div>
 
