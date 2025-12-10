@@ -1,0 +1,16 @@
+{
+  "name": "تالادوز",
+  "short_name": "TalaDose",
+  "description": "محاسبه‌گر دوز آهن‌زدای تالاسمی",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#e8f5ff",
+  "theme_color": "#1976d2",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/Ganjabady/TalaDose/5558bfd49b93a40b376ff43a2d3673873f04ccdf/fav.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
