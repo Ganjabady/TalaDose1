@@ -18,7 +18,9 @@
         <div class="text-center mb-5">
             <h1 class="display-4 fw-bold gradient-text">تالادوز</h1>
             <p class="lead text-muted">محاسبه‌گر هوشمند دوز داروهای آهن‌زدای تالاسمی — بروزرسانی ۲۰۲۵</p>
-            <small class="text-danger fw-bold">⚠️ فقط کمکی — مشورت با پزشک الزامی (بر اساس NIH/ASH)</small>
+            <div class="alert alert-danger rounded-4 mt-3">
+                <strong>⚠️ هشدار مهم:</strong> این ابزار فقط کمکی و آموزشی است و <strong>جایگزین مشاوره پزشک یا تشخیص نهایی نیست</strong>. دوزها بر اساس راهنماهای عمومی محاسبه می‌شوند و عوامل فردی (مثل وضعیت کلیه، قلب، یا داروهای دیگر) را در نظر نمی‌گیرد. مسئولیت هرگونه استفاده از این اطلاعات با کاربر است و ما هیچ مسئولیتی نداریم. همیشه با متخصص هماتولوژی مشورت کنید. منابع: NIH/ASH Guidelines 2025، TIF Chelation Protocol، Lancet Haematology 2024، StatPearls 2025، UCSF Thalassemia Center.
+            </div>
         </div>
 
         <div class="card shadow-xl border-0 rounded-4 animate-slide-up">
@@ -59,6 +61,7 @@
                             <div class="progress mt-2" style="height:6px;">
                                 <div class="progress-bar" id="ferritinBar" role="progressbar" style="width:50%"></div>
                             </div>
+                            <small id="ferritinMsg" class="text-muted mt-1 d-block"></small>
                         </div>
                     </div>
 
@@ -101,12 +104,19 @@
                             </div>
                         </div>
                     </div>
+                    <!-- توصیه‌های نظارت -->
+                    <div class="mt-4">
+                        <div class="alert alert-secondary rounded-3">
+                            <h6><i class="bi bi-clipboard-check"></i> نظارت و توصیه‌های مهم</h6>
+                            <p id="monitoring" class="mb-0 small"></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <footer class="text-center mt-5 text-muted animate-fade-in">
-            <p class="mb-1">طراحی و توسعه توسط <strong>حسین حوت</strong> — هماتولوژیست دیجیتال</p>
+            <p class="mb-1">طراحی و توسعه توسط <strong>حسین حوت</strong></p>
             <p>واتساپ: <a href="https://wa.me/989031375909" class="text-success"><i class="bi bi-whatsapp"></i> 09031375909</a></p>
         </footer>
     </div>
