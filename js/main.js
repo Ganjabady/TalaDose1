@@ -55,13 +55,16 @@ document.addEventListener('DOMContentLoaded', () => {
         msg.className = color.replace('bg-', 'text-');
     });
 
-    // Dark Mode
-    document.getElementById('themeToggle').addEventListener('click', () => {
-        document.body.classList.toggle('dark-theme');
-        const icon = document.querySelector('#themeToggle i');
-        icon.classList.toggle('bi-moon');
-        icon.classList.toggle('bi-sun');
-    });
+// دارک مود — کاملاً کار می‌کنه
+document.getElementById('themeToggle').addEventListener('click', () => {
+    document.body.classList.toggle('dark-theme');
+    const icon = document.querySelector('#themeToggle i');
+    if (document.body.classList.contains('dark-theme')) {
+        icon.classList.replace('bi-moon', 'bi-sun');
+    } else {
+        icon.classList.replace('bi-sun', 'bi-moon');
+    }
+});
 
     // محاسبه
     document.getElementById('calcForm').addEventListener('submit', (e) => {
