@@ -62,8 +62,7 @@ body {
 }
 
 .progress-bar {
-    background: linear-gradient(90deg, #ff9800, #ffc107);
-    transition: width 0.5s ease;
+    transition: width 0.5s ease, background 0.5s ease;
 }
 
 .form-select, .form-control {
@@ -80,3 +79,8 @@ body {
 .shadow-xl {
     box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
 }
+
+/* رنگ‌های فریتین */
+#ferritinBar.ferritin-low { background: #4caf50 !important; } /* سبز */
+#ferritinBar.ferritin-mid { background: #ff9800 !important; } /* نارنجی */
+#ferritinBar.ferritin-high { background: #f44336 !important; } /* قرمز */
