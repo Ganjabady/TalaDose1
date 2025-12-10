@@ -1,4 +1,6 @@
-// داده‌های برندها (قدرت واحد mg) — دفریپرون فقط اوه سینا
+// تالادوز — main.js نسخه نهایی (۲۰۲۵.۵)
+// طراحی و توسعه: حسین حوت
+
 const brands = {
     deferoxamine: [
         { name: 'دسفوناک ۵۰۰mg (روناک دارو)', strength: 500 },
@@ -11,13 +13,13 @@ const brands = {
     deferasirox: [
         { name: 'اکسجید ۱۲۵mg (نوارتیس)', strength: 125 },
         { name: 'جیدنیو ۹۰mg (نوارتیس)', strength: 90 },
+        { name: 'جیدنیو ۱۸۰mg (نوارتیس)', strength: 180 },
+        { name: 'جیدنیو ۳۶۰mg (نوارتیس)', strength: 360 },
         { name: 'اسورال ۱۸۰mg (اسوه)', strength: 180 },
         { name: 'تالاجید ۳۶۰mg (روناک دارو)', strength: 360 },
         { name: 'اکسجید ۲۵۰mg (نوارتیس)', strength: 250 },
         { name: 'اسورال ۵۰۰mg (اسوه)', strength: 500 },
         { name: 'نانوجید ۹۰mg (زیست اروند)', strength: 90 },
-        { name: 'جیدنیو ۱۸۰mg (نوارتیس)', strength: 180 },
-        { name: 'جیدنیو ۳۶۰mg (نوارتیس)', strength: 360 },
         { name: 'الیرون ۱۲۵mg (ابوریحان)', strength: 125 }
     ],
     deferiprone: [
@@ -26,22 +28,22 @@ const brands = {
     ]
 };
 
-// بروزرسانی dropdown برند
-document.addEventListener('DOMContentLoaded', function() {
+// بروزرسانی لیست برندها
+document.addEventListener('DOMContentLoaded', function () {
     const drugSelect = document.getElementById('drug');
     const brandSelect = document.getElementById('brand');
     const brandGroup = document.getElementById('brandGroup');
 
-    drugSelect.addEventListener('change', function() {
+    drugSelect.addEventListener('change', function () {
         const drug = this.value;
-        brandSelect.innerHTML = '<option value="">انتخاب کنید...</option>';
-        if (drug) {
+        brandSelect.innerHTML = '<option value="">انتخاب کنید (اختیاری)</option>';
+        if (drug && brands[drug]) {
             brands[drug].forEach(b => {
-                const option = document.createElement('option');
-                option.value = b.strength;
-                option.dataset.name = b.name;
-                option.textContent = b.name;
-                brandSelect.appendChild(option);
+                const opt = document.createElement('option');
+                opt.value = b.strength;
+                opt.dataset.name = b.name;
+                opt.textContent = b.name;
+                brandSelect.appendChild(opt);
             });
             brandGroup.style.display = 'block';
         } else {
@@ -50,143 +52,151 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// اسلایدر وزن native
-const weightInput = document.getElementById('weight');
-const weightSlider = document.getElementById('weightSlider');
-weightSlider.addEventListener('input', function() {
-    weightInput.value = this.value;
-});
-weightInput.addEventListener('input', function() {
-    weightSlider.value = this.value;
-});
-
-// فریتین داینامیک (رنگ + پیام)
+// فریتین — رنگ + پیام هوشمند
 const ferritinInput = document.getElementById('ferritin');
 const ferritinBar = document.getElementById('ferritinBar');
 const ferritinMsg = document.getElementById('ferritinMsg');
-ferritinInput.addEventListener('input', function() {
+
+ferritinInput.addEventListener('input', function () {
     const val = parseFloat(this.value) || 0;
-    let width = 0, colorClass = '', msg = '';
-    if (val < 1000) { 
-        width = 30; 
-        colorClass = 'ferritin-low'; 
-        msg = 'عالی! بار آهن شما کنترل‌شده است — ادامه بدید تا سالم بمونید 😊'; 
-    } else if (val < 2500) { 
-        width = 60; 
-        colorClass = 'ferritin-mid'; 
-        msg = 'خوب، اما مراقب باشید — با درمان منظم، می‌تونید پایین‌تر بیارید.'; 
-    } else { 
-        width = 100; 
-        colorClass = 'ferritin-high'; 
-        msg = 'بالا رفته، اما نگران نباشید! با درمان سریع و دقیق، کاملاً قابل کنترل است — قلب و کبدتون رو نجات بدید 💪'; 
+    let width, bgClass, message;
+
+    if (val < 1000) {
+        width = '30%';
+        bgClass = 'bg-success';
+        message = 'عالی! بار آهن کنترل‌شده است — ادامه بدید';
+    } else if (val < 2500) {
+        width = '65%';
+        bgClass = 'bg-warning';
+        message = 'خوب است، اما با درمان منظم می‌تونید بهتر هم بشه';
+    } else {
+        width = '100%';
+        bgClass = 'bg-danger';
+        message = 'بالا رفته — اما با درمان دقیق، کاملاً قابل کنترل است. ناامید نشید!';
     }
-    ferritinBar.style.width = width + '%';
-    ferritinBar.className = `progress-bar ferritin-${colorClass}`;
-    ferritinMsg.textContent = msg;
-    ferritinMsg.className = colorClass.includes('high') ? 'text-danger fw-bold' : colorClass.includes('low') ? 'text-success fw-bold' : 'text-warning fw-bold';
+
+    ferritinBar.style.width = width;
+    ferritinBar.className = `progress-bar ${bgClass}`;
+    ferritinMsg.textContent = message;
+    ferritinMsg.className = val < 1000 ? 'text-success' : val < 2500 ? 'text-warning' : 'text-danger';
+    ferritinMsg.classList.add('fw-bold');
 });
 
 // محاسبه اصلی
-document.getElementById('calcForm').addEventListener('submit', function(e) {
+document.getElementById('calcForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
     const drug = document.getElementById('drug').value;
     const weight = parseFloat(document.getElementById('weight').value);
     const age = parseInt(document.getElementById('age').value);
     const ferritin = parseFloat(document.getElementById('ferritin').value);
-    const isTransfusion = document.getElementById('transfusion').checked;
+    const isTransfusion = document.querySelector('input[name="type"]:checked').value === 'transfusion';
     const brandStrength = parseInt(document.getElementById('brand').value) || 500;
     const brandName = document.getElementById('brand').selectedOptions[0]?.dataset.name || 'استاندارد';
 
-    if (!drug || !weight || !age || !ferritin) {
-        alert('لطفاً همه فیلدها را پر کنید!');
+    if (!drug || isNaN(weight) || isNaN(age) || isNaN(ferritin)) {
+        alert('لطفاً همه اطلاعات را وارد کنید');
         return;
     }
 
-    let dose = '', mechanism = '', interactions = '', warnings = '', monitoring = '', unitCount = '', suggestion = '', dosePerKg = '';
+    let totalMg, dosePerKgText, unitCount = '', howToUse = '', suggestion = '';
+    let mechanism = '', interactions = '', monitoring = '';
 
+    // دفروکسامین
     if (drug === 'deferoxamine') {
-        let baseDose = isTransfusion ? 40 : 25;
-        const minDose = 20, maxDose = age < 18 ? 40 : 60;
-        if (age < 3) { dose = 'برای کودکان زیر ۳ سال، با پزشک مشورت کنید — ایمنی کامل تأیید نشده.'; }
-        else {
-            baseDose = ferritin > 2500 ? Math.min(baseDose * 1.2, maxDose) : ferritin < 1000 ? Math.max(baseDose * 0.8, minDose) : baseDose;
-            const totalMg = Math.round(baseDose * weight);
-            dosePerKg = `${baseDose.toFixed(0)} mg/kg`;
-            unitCount = calculateVialCombo(totalMg, brandStrength, brandName);
-            suggestion = brandStrength === 2000 ? ` (برای دقت بیشتر، می‌تونید ${Math.ceil(totalMg / 500)} ویال ۵۰۰mg از برند استاندارد مثل دسفرال استفاده کنید — دوز دقیق‌تر می‌شه)` : '';
-            dose = `دوز روزانه: ${totalMg} mg (یعنی ${dosePerKg} به ازای هر کیلو وزن — در محدوده ایمن ${minDose}-${maxDose} mg/kg). روش: زیرجلدی با پمپ انفوزیون طی ۸ تا ۱۲ ساعت، ۵-۷ روز در هفته.<br><strong>تعداد ویال: ${unitCount}</strong>${suggestion}`;
-        }
-        mechanism = 'آهن اضافی رو به دام می‌ندازه و از ادرار خارج می‌کنه — عالی برای آهن داخل سلول‌ها.';
-        interactions = 'ویتامین C (۱۰۰-۲۰۰ mg در روز) دفع آهن رو بیشتر می‌کنه، اما اگر مشکل قلبی دارید، ممنوعه.';
-        warnings = 'درد محل تزریق شایع — اگر فریتین زیر ۵۰۰، دوز رو کم کنید تا مسمومیت پیش نیاد.';
-        monitoring = 'هر ۳ ماه: تست شنوایی و بینایی (ممکنه تغییر کنه). ماهانه: فریتین و LIC (آهن کبد). هر ۶-۱۲ ماه: تست قلب (MRI T2* بر اساس سطح آهن — اگر T2* <۱۰ ms، هر ۶ ماه؛ >۲۰ ms، سالانه یا هر ۲ سال، TIF ۲۰۲۵). هر ۳ ماه: کلیه و کبد. اگر تب یا درد شکم داشتید، فوری به پزشک بگید.';
+        let base = isTransfusion ? 40 : 25;
+        const min = 20, max = age < 18 ? 40 : 60;
 
+        if (age < 3) {
+            totalMg = 0;
+            dosePerKgText = 'ایمنی زیر ۳ سال تأیید نشده';
+        } else {
+            if (ferritin > 2500) base = Math.min(base * 1.2, max);
+            if (ferritin < 1000) base = Math.max(base * 0.8, min);
+            totalMg = Math.round(base * weight);
+            dosePerKgText = `${base} mg/kg/روز`;
+
+            // محاسبه ویال
+            if (brandStrength === 2000) {
+                const full2g = Math.floor(totalMg / 2000);
+                const rest = totalMg % 2000;
+                unitCount = full2g > 0 ? `${full2g} ویال ۲ گرمی` : '';
+                if (rest > 0) unitCount += `${unitCount ? ' + ' : ''}${Math.ceil(rest / 500)} ویال ۵۰۰mg`;
+                suggestion = '<br><small class="text-light opacity-75">پیشنهاد: برای دقت بیشتر، از ویال‌های ۵۰۰mg استفاده کنید</small>';
+            } else {
+                unitCount = `${Math.ceil(totalMg / 500)} ویال ۵۰۰mg`;
+            }
+        }
+
+        howToUse = 'زیرجلدی با پمپ انفوزیون — ۸ تا ۱۲ ساعت — ۵ تا ۷ روز در هفته';
+        mechanism = 'آهن اضافی را به دام می‌اندازد و از ادرار دفع می‌کند — دسترسی عالی به آهن داخل‌سلولی';
+        interactions = 'ویتامین C (۱۰۰-۲۰۰ mg روزانه) دفع را افزایش می‌دهد — در مشکلات قلبی ممنوع';
+        monitoring = 'هر ۳ ماه: شنوایی و بینایی | ماهانه: فریتین | هر ۶-۱۲ ماه: MRI T2* قلب (TIF ۲۰۲۵)';
+
+    // دفراسیروکس
     } else if (drug === 'deferasirox') {
-        let baseDose = isTransfusion ? 30 : 10;
-        const minDose = 7, maxDose = 40;
-        if (ferritin < 300) { dose = 'در حال حاضر، درمان رو موقتاً قطع کنید و LIC (آهن کبد) چک بشه.'; }
-        else {
-            baseDose = ferritin > 2500 ? Math.min(baseDose + 10, maxDose) : ferritin < 1000 ? Math.max(baseDose - 5, minDose) : baseDose;
-            const totalMg = Math.round(baseDose * weight);
-            dosePerKg = `${baseDose.toFixed(0)} mg/kg`;
-            const tablets = calculateTabletCombo(totalMg, brandStrength);
-            unitCount = `${tablets.num} قرص ${brandStrength}mg (${brandName})`;
-            if (tablets.remainder > 0) unitCount += ` + ${Math.ceil(tablets.remainder / 90)} قرص ۹۰mg`;
-            dose = `دوز روزانه: ${totalMg} mg (یعنی ${dosePerKg} — در محدوده ${minDose}-${maxDose} mg/kg). روش: خوراکی، یک‌بار در روز با معده خالی (یا وعده سبک).<br><strong>تعداد قرص: ${unitCount}</strong>`;
-        }
-        mechanism = 'به آهن می‌چسبه و بیشتر از مدفوع خارج می‌کنه — راحت و روزانه یک دونه.';
-        interactions = 'از آنتی‌اسیدهای حاوی آلومینیوم دوری کنید. اگر ریفامپین می‌خورید، دوز رو ۵۰% بیشتر کنید.';
-        warnings = 'اگر کراتینین کلیه بالا رفت، فوری قطع کنید. خونریزی معده ممکنه پیش بیاد.';
-        monitoring = 'ماهانه: کراتینین کلیه و فریتین. هر ۶ ماه: LIC. هر ۶-۱۲ ماه: تست قلب (MRI T2* بر اساس سطح آهن — TIF ۲۰۲۵). هر ۳-۴ هفته: کبد. اگر راش پوستی یا تهوع شدید، به پزشک اطلاع بدید.';
+        let base = isTransfusion ? 30 : 10;
+        const min = 7, max = 40;
 
-    } else if (drug === 'deferiprone') {
-        if (age < 8) { dose = 'برای زیر ۸ سال، با پزشک مشورت کنید — ایمنی کامل تأیید نشده.'; }
-        else if (ferritin < 500) { dose = 'موقتاً قطع کنید و نوتروفیل (ANC) چک بشه.'; }
-        else {
-            let baseDose = 75;
-            const minDose = 75, maxDose = 99;
-            baseDose = ferritin > 2500 ? Math.min(baseDose + 10, maxDose) : ferritin < 1000 ? Math.max(baseDose - 10, minDose) : baseDose;
-            const totalMg = Math.round(baseDose * weight);
-            dosePerKg = `${(baseDose / 3).toFixed(0)} mg/kg هر دوز (مجموع ${baseDose.toFixed(0)} mg/kg در روز)`;
-            const perDose = totalMg / 3;
-            const tabletsPerDose = Math.round(perDose / brandStrength);
-            unitCount = `${tabletsPerDose * 3} قرص ${brandStrength}mg در روز (هر دوز ${tabletsPerDose} قرص، ${brandName})`;
-            dose = `دوز روزانه: ${totalMg} mg (یعنی ${dosePerKg} — در محدوده ${minDose}-${maxDose} mg/kg). روش: خوراکی، ۳ بار در روز با غذا.<br><strong>تعداد قرص: ${unitCount}</strong>`;
+        if (ferritin < 300) {
+            totalMg = 0;
+            dosePerKgText = 'قطع موقت درمان — LIC چک شود';
+        } else {
+            if (ferritin > 2500) base = Math.min(base + 10, max);
+            if (ferritin < 1000) base = Math.max(base - 5, min);
+            totalMg = Math.round(base * weight);
+            dosePerKgText = `${base} mg/kg/روز`;
+
+            const tablets = Math.round(totalMg / brandStrength);
+            const remainder = totalMg % brandStrength;
+            unitCount = `${tablets} قرص ${brandStrength}mg`;
+            if (remainder > 90) unitCount += ` + ۱ قرص ۹۰mg`;
         }
-        mechanism = 'آهن رو از قلب پاک می‌کنه — بهترین برای جلوگیری از مشکلات قلبی.';
-        interactions = 'از زینک یا آلومینیوم ۴ ساعت فاصله بدید. والپروئیک اسید: نظارت بیشتر لازم.';
-        warnings = 'درد مفاصل یا تغییر رنگ ادرار (قهوه‌ای) شایع — اگر تب یا گلودرد، فوری چک کنید.';
-        monitoring = 'هفتگی: شمارش نوتروفیل (ANC) — خطر عفونت. هر ۲-۳ ماه: فریتین. هر ۶-۱۲ ماه: تست قلب (MRI T2* بر اساس سطح آهن — TIF ۲۰۲۵). هر ۳ ماه: کبد. اگر ANC پایین، موقتاً قطع. ترکیب با دفراسیروکس برای موارد شدید عالیه.';
+
+        howToUse = 'خوراکی — یک‌بار در روز — با معده خالی یا وعده سبک';
+        mechanism = 'اتصال قوی به آهن — دفع اصلی از مدفوع';
+        interactions = 'آنتی‌اسید آلومینیوم‌دار ممنوع — ریفامپین: دوز ↑۵۰%';
+        monitoring = 'ماهانه: کراتینین و فریتین | هر ۶ ماه: LIC | هر ۶-۱۲ ماه: MRI T2* قلب';
+
+    // دفریپرون
+    } else if (drug === 'deferiprone') {
+        if (age < 8) {
+            totalMg = 0;
+            dosePerKgText = 'ایمنی زیر ۸ سال تأیید نشده';
+        } else if (ferritin < 500) {
+            totalMg = 0;
+            dosePerKgText = 'قطع موقت — ANC چک شود';
+        } else {
+            let base = 75;
+            const max = 99;
+            if (ferritin > 2500) base = Math.min(base + 10, max);
+            totalMg = Math.round(base * weight);
+            dosePerKgText = `${Math.round(base/3)} mg/kg هر دوز — مجموع ${base} mg/kg/روز`;
+
+            const perDose = totalMg / 3;
+            const tabsPerDose = Math.round(perDose / brandStrength);
+            unitCount = `${tabsPerDose * 3} قرص ۵۰۰mg در روز (هر دوز ${tabsPerDose} قرص)`;
+        }
+
+        howToUse = 'خوراکی — ۳ بار در روز — همراه غذا';
+        mechanism = 'بهترین شلاتور برای پاک کردن آهن از قلب — کاهش ۳۰٪ آهن میوکارد';
+        interactions = 'زینک و آلومینیوم: فاصله ۴ ساعته';
+        monitoring = 'هفتگی: نوتروفیل (ANC) | هر ۲-۳ ماه: فریتین | هر ۶-۱۲ ماه: MRI T2* قلب';
     }
 
-    document.getElementById('doseOutput').innerHTML = `<i class="bi bi-check-circle"></i> <strong>دوز پیشنهادی (تنظیم‌شده با فریتین ${ferritin}):</strong><br>${dose}`;
+    // نمایش نهایی — شاهکار UX
+    document.getElementById('doseTitle').textContent = totalMg > 0 ? `${totalMg.toLocaleString()} میلی‌گرم در روز` : dosePerKgText;
+    document.getElementById('dosePerKg').textContent = totalMg > 0 ? dosePerKgText : '—';
+    document.getElementById('unitCount').innerHTML = totalMg > 0 ? `<strong>${unitCount}</strong>${suggestion || ''}` : '—';
+    document.getElementById('howToUse').textContent = totalMg > 0 ? howToUse : '';
+
     document.getElementById('mechanism').textContent = mechanism;
     document.getElementById('interactions').textContent = interactions;
-    document.getElementById('warnings').textContent = warnings;
     document.getElementById('monitoring').textContent = monitoring;
+
     document.getElementById('result').classList.remove('d-none');
     document.getElementById('consultAlert').classList.remove('d-none');
-    window.scrollTo({ top: document.getElementById('result').offsetTop - 100, behavior: 'smooth' });
+
+    // اسکرول نرم به نتیجه
+    document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'center' });
 });
-
-// توابع کمکی
-function calculateVialCombo(totalMg, strength, brandName) {
-    let unitCount = '';
-    if (strength === 2000) {
-        const num2g = Math.floor(totalMg / 2000);
-        const remainder = totalMg % 2000;
-        unitCount = `${num2g} ویال ۲۰۰۰mg (${brandName})`;
-        if (remainder > 0) unitCount += ` + ${Math.ceil(remainder / 500)} ویال ۵۰۰mg`;
-    } else {
-        const num500 = Math.ceil(totalMg / 500);
-        unitCount = `${num500} ویال ۵۰۰mg (${brandName})`;
-    }
-    return unitCount;
-}
-
-function calculateTabletCombo(totalMg, strength) {
-    const num = Math.floor(totalMg / strength);
-    const remainder = totalMg % strength;
-    return { num: num, remainder: remainder };
-}
