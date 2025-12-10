@@ -1,37 +1,47 @@
-body {
-    background: linear-gradient(to bottom, #f0f8ff, #e6f3ff);
-    font-family: 'Vazirmatn', sans-serif;
-    color: #333;
+/* متن داخل کادر دوز — کاملاً خوانا */
+.dose-card h4,
+.dose-card h1,
+.dose-card p,
+.dose-card small {
+    color: white !important;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    font-weight: 700;
 }
 
-body.dark-theme {
-    background: linear-gradient(to bottom, #1a1a2e, #16213e);
-    color: #eee;
+.dose-card small {
+    opacity: 0.9;
+    font-weight: 500;
 }
 
-.gradient-text {
-    background: linear-gradient(45deg, #1976d2, #42a5f5);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+/* دارک مود کامل */
+.dark-theme {
+    background: linear-gradient(135deg, #0f172a, #1e293b) !important;
+    color: #e2e8f0 !important;
 }
 
-.card { border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); }
+.dark-theme .card {
+    background: #1e293b !important;
+    border: 1px solid #334155;
+}
 
-.dose-card {
-    background: linear-gradient(135deg, #1976d2, #42a5f5);
+.dark-theme .form-control,
+.dark-theme .form-select {
+    background: #334155;
+    border-color: #475569;
     color: white;
-    border-radius: 20px;
-    min-height: 200px;
-    max-height: 250px;
-    overflow: hidden;
 }
 
-.form-control, .form-select { border-radius: 12px; border: 1px solid #ddd; }
+.dark-theme .alert-danger {
+    background: #7f1d1d;
+    color: white;
+    border: none;
+}
 
-.progress-bar { transition: all 0.3s; }
+.dark-theme .btn-outline-primary {
+    color: #93c5fd;
+    border-color: #93c5fd;
+}
 
-.animate-fade-in { animation: fadeIn 0.8s ease-out; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-.dark-theme .card { background: #2a2a3a; color: #eee; }
-.dark-theme .form-control { background: #3a3a4a; color: #eee; border-color: #555; }
+.dark-theme .btn-primary {
+    background: #3b82f6;
+}
