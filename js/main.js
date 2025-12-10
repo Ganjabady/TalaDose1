@@ -1,4 +1,4 @@
-// داده‌های برندها (قدرت واحد mg) — بروز ۲۰۲۵
+// داده‌های برندها (قدرت واحد mg) — دفریپرون فقط اوه سینا
 const brands = {
     deferoxamine: [
         { name: 'دسفوناک ۵۰۰mg (روناک دارو)', strength: 500 },
@@ -21,10 +21,8 @@ const brands = {
         { name: 'الیرون ۱۲۵mg (ابوریحان)', strength: 125 }
     ],
     deferiprone: [
-        { name: 'ال‌وان ۵۰۰mg (اوه سینا)', strength: 500 },
-        { name: 'آوی دفرون ۵۰۰mg (زیست اروند)', strength: 500 },
-        { name: 'Ferriprox ۵۰۰mg (ژنریک)', strength: 500 },
-        { name: 'Ferriprox ۱۰۰۰mg (ژنریک)', strength: 1000 }
+        { name: 'قرص روکشدار ال‌وان ۵۰۰mg (اوه سینا)', strength: 500 },
+        { name: 'قرص جوشان آوی دفرون ۵۰۰mg (اوه سینا)', strength: 500 }
     ]
 };
 
@@ -116,13 +114,13 @@ document.getElementById('calcForm').addEventListener('submit', function(e) {
             const totalMg = Math.round(baseDose * weight);
             dosePerKg = `${baseDose.toFixed(0)} mg/kg`;
             unitCount = calculateVialCombo(totalMg, brandStrength, brandName);
-            suggestion = brandStrength === 2000 ? ` (برای دقت بیشتر، می‌تونید ۷ ویال ۵۰۰mg از برند استاندارد مثل دسفرال استفاده کنید — دوز دقیق‌تر می‌شه)` : '';
+            suggestion = brandStrength === 2000 ? ` (برای دقت بیشتر، می‌تونید ${Math.ceil(totalMg / 500)} ویال ۵۰۰mg از برند استاندارد مثل دسفرال استفاده کنید — دوز دقیق‌تر می‌شه)` : '';
             dose = `دوز روزانه: ${totalMg} mg (یعنی ${dosePerKg} به ازای هر کیلو وزن — در محدوده ایمن ${minDose}-${maxDose} mg/kg). روش: زیرجلدی با پمپ انفوزیون طی ۸ تا ۱۲ ساعت، ۵-۷ روز در هفته.<br><strong>تعداد ویال: ${unitCount}</strong>${suggestion}`;
         }
         mechanism = 'آهن اضافی رو به دام می‌ندازه و از ادرار خارج می‌کنه — عالی برای آهن داخل سلول‌ها.';
         interactions = 'ویتامین C (۱۰۰-۲۰۰ mg در روز) دفع آهن رو بیشتر می‌کنه، اما اگر مشکل قلبی دارید، ممنوعه.';
         warnings = 'درد محل تزریق شایع — اگر فریتین زیر ۵۰۰، دوز رو کم کنید تا مسمومیت پیش نیاد.';
-        monitoring = 'هر ۳ ماه: تست شنوایی و بینایی (ممکنه تغییر کنه). ماهانه: فریتین و LIC (آهن کبد). هر ۳ ماه: کلیه و کبد. اگر تب یا درد شکم داشتید، فوری به پزشک بگید.';
+        monitoring = 'هر ۳ ماه: تست شنوایی و بینایی (ممکنه تغییر کنه). ماهانه: فریتین و LIC (آهن کبد). هر ۶-۱۲ ماه: تست قلب (MRI T2* بر اساس سطح آهن — اگر T2* <۱۰ ms، هر ۶ ماه؛ >۲۰ ms، سالانه یا هر ۲ سال، TIF ۲۰۲۵). هر ۳ ماه: کلیه و کبد. اگر تب یا درد شکم داشتید، فوری به پزشک بگید.';
 
     } else if (drug === 'deferasirox') {
         let baseDose = isTransfusion ? 30 : 10;
@@ -140,7 +138,7 @@ document.getElementById('calcForm').addEventListener('submit', function(e) {
         mechanism = 'به آهن می‌چسبه و بیشتر از مدفوع خارج می‌کنه — راحت و روزانه یک دونه.';
         interactions = 'از آنتی‌اسیدهای حاوی آلومینیوم دوری کنید. اگر ریفامپین می‌خورید، دوز رو ۵۰% بیشتر کنید.';
         warnings = 'اگر کراتینین کلیه بالا رفت، فوری قطع کنید. خونریزی معده ممکنه پیش بیاد.';
-        monitoring = 'ماهانه: کراتینین کلیه و فریتین. هر ۶ ماه: LIC و تست قلب (MRI T2*). هر ۳-۴ هفته: کبد. اگر راش پوستی یا تهوع شدید، به پزشک اطلاع بدید.';
+        monitoring = 'ماهانه: کراتینین کلیه و فریتین. هر ۶ ماه: LIC. هر ۶-۱۲ ماه: تست قلب (MRI T2* بر اساس سطح آهن — TIF ۲۰۲۵). هر ۳-۴ هفته: کبد. اگر راش پوستی یا تهوع شدید، به پزشک اطلاع بدید.';
 
     } else if (drug === 'deferiprone') {
         if (age < 8) { dose = 'برای زیر ۸ سال، با پزشک مشورت کنید — ایمنی کامل تأیید نشده.'; }
@@ -159,7 +157,7 @@ document.getElementById('calcForm').addEventListener('submit', function(e) {
         mechanism = 'آهن رو از قلب پاک می‌کنه — بهترین برای جلوگیری از مشکلات قلبی.';
         interactions = 'از زینک یا آلومینیوم ۴ ساعت فاصله بدید. والپروئیک اسید: نظارت بیشتر لازم.';
         warnings = 'درد مفاصل یا تغییر رنگ ادرار (قهوه‌ای) شایع — اگر تب یا گلودرد، فوری چک کنید.';
-        monitoring = 'هفتگی: شمارش نوتروفیل (ANC) — خطر عفونت. هر ۲-۳ ماه: فریتین. هر ۳ ماه: کبد و قلب (MRI T2*). اگر ANC پایین، موقتاً قطع. ترکیب با دفراسیروکس برای موارد شدید عالیه.';
+        monitoring = 'هفتگی: شمارش نوتروفیل (ANC) — خطر عفونت. هر ۲-۳ ماه: فریتین. هر ۶-۱۲ ماه: تست قلب (MRI T2* بر اساس سطح آهن — TIF ۲۰۲۵). هر ۳ ماه: کبد. اگر ANC پایین، موقتاً قطع. ترکیب با دفراسیروکس برای موارد شدید عالیه.';
     }
 
     document.getElementById('doseOutput').innerHTML = `<i class="bi bi-check-circle"></i> <strong>دوز پیشنهادی (تنظیم‌شده با فریتین ${ferritin}):</strong><br>${dose}`;
@@ -168,6 +166,7 @@ document.getElementById('calcForm').addEventListener('submit', function(e) {
     document.getElementById('warnings').textContent = warnings;
     document.getElementById('monitoring').textContent = monitoring;
     document.getElementById('result').classList.remove('d-none');
+    document.getElementById('consultAlert').classList.remove('d-none');
     window.scrollTo({ top: document.getElementById('result').offsetTop - 100, behavior: 'smooth' });
 });
 
