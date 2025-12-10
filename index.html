@@ -3,125 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تالادوز | محاسبه‌گر هوشمند دوز آهن‌زداها — ۲۰۲۵</title>
-    <meta name="description" content="دوز دقیق دفروکسامین، دفراسیروکس، دفریپرون با تنظیم فریتین — برای تالاسمی">
+    <title>تالادوز | دوز دقیق داروهای آهن‌زدای تالاسمی</title>
+    <meta name="description" content="محاسبه‌گر هوشمند دوز دفروکسامین، دفراسیروکس و دفریپرون — دقیق، ساده و قابل اعتماد">
     
+    <!-- Favicon حرفه‌ای -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co/2j7Z6nK/taladoz-favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://i.ibb.co/2j7Z6nK/taladoz-favicon-16.png">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/2j7Z6nK/taladoz-favicon-180.png">
+
     <!-- Fonts + Bootstrap + Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container py-5 animate-fade-in">
-        <div class="text-center mb-5">
-            <h1 class="display-4 fw-bold gradient-text">تالادوز</h1>
-            <p class="lead text-muted">محاسبه‌گر هوشمند دوز داروهای آهن‌زدای تالاسمی — بروزرسانی ۲۰۲۵</p>
-            <div class="alert alert-danger rounded-4 mt-3">
-                <strong>⚠️ هشدار مهم:</strong> این ابزار فقط کمکی و آموزشی است و <strong>جایگزین مشاوره پزشک یا تشخیص نهایی نیست</strong>. دوزها بر اساس راهنماهای عمومی محاسبه می‌شوند و عوامل فردی (مثل وضعیت کلیه، قلب، یا داروهای دیگر) را در نظر نمی‌گیرد. مسئولیت هرگونه استفاده از این اطلاعات با کاربر است و ما هیچ مسئولیتی نداریم. همیشه با متخصص هماتولوژی مشورت کنید. منابع: NIH/ASH Guidelines 2025، TIF Chelation Protocol، Lancet Haematology 2024، StatPearls 2025، UCSF Thalassemia Center.
+    <div class="container py-5">
+        <!-- هدر -->
+        <div class="text-center mb-5 animate-fade-in">
+            <h1 class="display-3 fw-bold gradient-text mb-3">تالادوز</h1>
+            <p class="lead text-muted fs-4">محاسبه‌گر هوشمند دوز داروهای آهن‌زدای بیماران تالاسمی</p>
+            <div class="alert alert-danger rounded-4 shadow mt-4 fs-6">
+                <strong>هشدار مهم:</strong> این ابزار فقط کمکی است و <strong>جایگزین نظر پزشک نیست</strong>. دوز نهایی باید توسط متخصص هماتولوژی تأیید شود.<br>
+                منابع: NIH, ASH 2025, TIF Guidelines, Lancet Haematology
             </div>
         </div>
 
-        <div class="card shadow-glow border-0 rounded-4 animate-slide-up">
-            <div class="card-body p-4 p-md-5">
+        <!-- کارت اصلی -->
+        <div class="card border-0 shadow-glow rounded-4 animate-slide-up">
+            <div class="card-body p-4 p-lg-5">
+
                 <form id="calcForm">
-                    <!-- دارو -->
-                    <div class="mb-4">
-                        <label class="form-label fw-bold"><i class="bi bi-pills"></i> دارو</label>
-                        <select id="drug" class="form-select form-select-lg" required>
-                            <option value="">انتخاب کنید...</option>
-                            <option value="deferoxamine">دفروکسامین (ویال تزریقی)</option>
-                            <option value="deferasirox">دفراسیروکس (قرص خوراکی)</option>
-                            <option value="deferiprone">دفریپرون (قرص/جوشان)</option>
-                        </select>
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <label class="form-label fw-bold fs-5">دارو</label>
+                            <select id="drug" class="form-select form-select-lg rounded-3" required>
+                                <option value="">انتخاب کنید...</option>
+                                <option value="deferoxamine">دفروکسامین (دسفرال، دسفوناک، Hospira)</option>
+                                <option value="deferasirox">دفراسیروکس (اکسجید، جیدنیو، اسورال، تالاجید)</option>
+                                <option value="deferiprone">دفریپرون (ال‌وان — اوه سینا)</option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-6" id="brandGroup" style="display:none;">
+                            <label class="form-label fw-bold fs-5">برند موجود</label>
+                            <select id="brand" class="form-select form-select-lg rounded-3"></select>
+                        </div>
                     </div>
 
-                    <!-- برند (قدرت واحد) -->
-                    <div class="mb-4" id="brandGroup" style="display:none;">
-                        <label class="form-label fw-bold"><i class="bi bi-tag"></i> برند ایرانی/وارداتی (برای محاسبه واحد)</label>
-                        <select id="brand" class="form-select">
-                            <option value="">انتخاب کنید...</option>
-                        </select>
-                    </div>
-
-                    <div class="row g-3 mb-4">
+                    <div class="row g-4 mt-2">
                         <div class="col-md-4">
-                            <label class="form-label"><i class="bi bi-person"></i> وزن (kg)</label>
-                            <input type="number" id="weight" class="form-control form-control-lg" min="3" step="0.1" value="50" required>
-                            <input type="range" id="weightSlider" class="form-range mt-2" min="3" max="100" step="0.1" value="50">
+                            <label class="form-label fw-bold">وزن (کیلوگرم)</label>
+                            <input type="number" id="weight" class="form-control form-control-lg text-center" value="50" min="3" step="0.1" required>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label"><i class="bi bi-calendar"></i> سن (سال)</label>
-                            <input type="number" id="age" class="form-control form-control-lg" min="1" value="20" required>
+                            <label class="form-label fw-bold">سن (سال)</label>
+                            <input type="number" id="age" class="form-control form-control-lg text-center" value="25" min="1" required>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label"><i class="bi bi-droplet"></i> فریتین (ng/mL)</label>
-                            <input type="number" id="ferritin" class="form-control form-control-lg" min="0" value="1500" required>
-                            <div class="progress mt-2" style="height:8px; border-radius: 10px;">
-                                <div class="progress-bar" id="ferritinBar" role="progressbar" style="width:50%"></div>
+                            <label class="form-label fw-bold">فریتین فعلی (ng/mL)</label>
+                            <input type="number" id="ferritin" class="form-control form-control-lg text-center" value="1800" min="0" required>
+                            <div class="progress mt-2" style="height:10px; border-radius:10px;">
+                                <div class="progress-bar" id="ferritinBar"></div>
                             </div>
-                            <small id="ferritinMsg" class="text-muted mt-1 d-block"></small>
+                            <div id="ferritinMsg" class="mt-2 fw-bold text-center"></div>
                         </div>
                     </div>
 
-                    <div class="mb-4">
-                        <label class="form-label fw-bold"><i class="bi bi-syringe"></i> نوع تالاسمی</label>
-                        <div class="btn-group w-100" role="group">
-                            <input type="radio" class="btn-check" name="type" id="transfusion" value="transfusion" checked>
-                            <label class="btn btn-outline-primary rounded-pill px-4" for="transfusion">وابسته به تزریق</label>
-                            <input type="radio" class="btn-check" name="type" id="nontransfusion" value="non-transfusion">
-                            <label class="btn btn-outline-primary rounded-pill px-4" for="nontransfusion">غیروابسته</label>
-                        </div>
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-glow fs-5">
+                            محاسبه دوز دقیق
+                        </button>
                     </div>
-
-                    <button type="submit" class="btn btn-primary btn-lg w-100 shadow-glow rounded-pill">
-                        <i class="bi bi-calculator-fill"></i> محاسبه هوشمند دوز
-                    </button>
                 </form>
 
-                <!-- نتیجه -->
-                <div id="result" class="mt-5 d-none animate-slide-up-delay">
-                    <hr class="border-primary">
-                    <div id="doseOutput" class="alert alert-success fs-5 text-center rounded-4 shadow-glow"></div>
-                    <div id="consultAlert" class="alert alert-warning rounded-4 shadow mt-3 d-none">
-                        <strong>⚠️ نکته نهایی:</strong> حتماً این دوز رو با پزشک هماتولوژیستتون مشورت کنید. این برنامه فقط برای محاسبه کمکی و آموزشی نوشته شده و <strong>جایگزین نظر متخصص نیست</strong>. پزشکان عزیز، اگر سؤال یا پیشنهادی دارید، خوشحال می‌شیم بشنویم!
+                <!-- نتیجه — شاهکار UX -->
+                <div id="result" class="mt-5 d-none">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-heart-pulse-fill text-danger fs-1"></i>
+                        <h2 class="fw-bold mt-3">دوز پیشنهادی شما</h2>
                     </div>
-                    <div class="row g-4 mt-4">
-                        <div class="col-md-4">
-                            <div class="alert alert-info rounded-3">
-                                <h6><i class="bi bi-gear"></i> مکانیسم عمل</h6>
-                                <p id="mechanism" class="mb-0 small"></p>
+
+                    <div class="dose-card p-5 rounded-4 shadow-lg text-white position-relative overflow-hidden">
+                        <div class="dose-bg"></div>
+                        <div class="position-relative z-3">
+                            <h1 class="display-5 fw-bold text-center mb-4" id="doseTitle"></h1>
+                            <div class="row text-center g-4">
+                                <div class="col-md-6">
+                                    <div class="bg-white text-dark rounded-4 p-4 shadow">
+                                        <p class="mb-1 small text-muted">دوز به ازای هر کیلو</p>
+                                        <h3 class="fw-bold mb-0" id="dosePerKg"></h3>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="bg-white text-dark rounded-4 p-4 shadow">
+                                        <p class="mb-1 small text-muted">تعداد ویال / قرص</p>
+                                        <h3 class="fw-bold mb-0" id="unitCount"></h3>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="alert alert-warning rounded-3">
-                                <h6><i class="bi bi-exclamation-triangle"></i> تداخلات</h6>
-                                <p id="interactions" class="mb-0 small"></p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="alert alert-danger rounded-3">
-                                <h6><i class="bi bi-heart-pulse"></i> هشدارها (۲۰۲۵)</h6>
-                                <p id="warnings" class="mb-0 small fw-bold"></p>
+                            <div class="text-center mt-4">
+                                <p class="fs-5 mb-0" id="howToUse"></p>
                             </div>
                         </div>
                     </div>
-                    <!-- توصیه‌های نظارت -->
-                    <div class="mt-4">
-                        <div class="alert alert-secondary rounded-3">
-                            <h6><i class="bi bi-clipboard-check"></i> نظارت و توصیه‌های مهم</h6>
-                            <p id="monitoring" class="mb-0 small"></p>
+
+                    <div class="alert alert-warning rounded-4 shadow mt-4 text-center fs-5">
+                        <strong>حتماً این دوز را با پزشک خودتان چک کنید</strong><br>
+                        این برنامه فقط برای کمک به درک بهتر دوز طراحی شده و <strong>جایگزین نظر متخصص نیست</strong>.
+                    </div>
+
+                    <div class="row g-4 mt-5">
+                        <div class="col-md-4">
+                            <div class="alert alert-info rounded-4 h-100">
+                                <h6 class="fw-bold">مکانیسم عمل</h6>
+                                <p id="mechanism" class="small mb-0"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="alert alert-warning rounded-4 h-100">
+                                <h6 class="fw-bold">تداخلات دارویی</h6>
+                                <p id="interactions" class="small mb-0"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="alert alert-light border-danger rounded-4 h-100">
+                                <h6 class="fw-bold text-danger">نظارت ضروری</h6>
+                                <p id="monitoring" class="small mb-0"></p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <footer class="text-center mt-5 text-muted animate-fade-in">
-            <p class="mb-1">طراحی و توسعه توسط <strong>حسین حوت</strong></p>
-            <p>واتساپ: <a href="https://wa.me/989031375909" class="text-success"><i class="bi bi-whatsapp"></i> 09031375909</a></p>
-        </footer>
+        <!-- فوتر -->
+        <div class="text-center mt-5 text-muted">
+            <p class="mb-2">طراحی و توسعه توسط <strong>حسین حوت</strong></p>
+            <p class="mb-0">
+                <a href="https://wa.me/989031375909" target="_blank" class="text-success fw-bold">
+                    واتساپ: 09031375909
+                </a>
+                <br><small class="text-muted">جهت دریافت انتقادات، پیشنهادات و ایده‌های شما</small>
+            </p>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
