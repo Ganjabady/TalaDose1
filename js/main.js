@@ -210,30 +210,36 @@ if (calcForm) {
             monitoring = 'هفتگی: نوتروفیل (ANC) | هر ۲-۳ ماه: فریتین | هر ۶-۱۲ ماه: MRI T2* قلب';
         }
 
-        // نمایش نهایی — UX شاهکار
-        const doseTitle = document.getElementById('doseTitle');
-        const dosePerKg = document.getElementById('dosePerKg');
-        const unitCountEl = document.getElementById('unitCount');
-        const howToUseEl = document.getElementById('howToUse');
-        const mechanismEl = document.getElementById('mechanism');
-        const interactionsEl = document.getElementById('interactions');
-        const monitoringEl = document.getElementById('monitoring');
+        // نمایش نهایی — UX شاهکار (نسخه اصلاح‌شده)
+        document.getElementById('doseTitle').innerHTML = totalMg > 0 
+            ? `<strong>${totalMg.toLocaleString()}</strong> میلی‌گرم در روز` 
+            : dosePerKgText;
 
-        if (doseTitle && dosePerKg && unitCountEl && howToUseEl && mechanismEl && interactionsEl && monitoringEl) {
-            doseTitle.textContent = totalMg > 0 ? `${totalMg.toLocaleString()} میلی‌گرم در روز` : dosePerKgText;
-            dosePerKg.textContent = totalMg > 0 ? dosePerKgText : '—';
-            unitCountEl.innerHTML = totalMg > 0 ? `<strong>${unitCount}</strong>${suggestion || ''}` : '—';
-            howToUseEl.textContent = totalMg > 0 ? howToUse : '';
+        document.getElementById('dosePerKg').textContent = totalMg > 0 ? dosePerKgText : '—';
 
-            mechanismEl.textContent = mechanism;
-            interactionsEl.textContent = interactions;
-            monitoringEl.textContent = monitoring;
-
-            const result = document.getElementById('result');
-            if (result) result.classList.remove('d-none');
+        if (totalMg > 0) {
+            let unitHTML = `<strong>${unitCount}</strong>`;
+            if (suggestion) {
+                unitHTML += `<div class="suggestion-note mt-3">
+                                <i class="bi bi-lightbulb-fill me-1"></i> ${suggestion.replace('<br>', '').replace('<small', '<span').replace('</small>', '</span>')}
+                              </div>`;
+            }
+            document.getElementById('unitCount').innerHTML = unitHTML;
         } else {
-            console.error('عناصر نتیجه پیدا نشد!');
+            document.getElementById('unitCount').innerHTML = '—';
         }
+
+        document.getElementById('howToUse').innerHTML = totalMg > 0 
+            ? `<i class="bi bi-clock-history me-2"></i>${howToUse}` 
+            : '';
+
+        // بقیه همون قبلی...
+        document.getElementById('mechanism').textContent = mechanism;
+        document.getElementById('interactions').textContent = interactions;
+        document.getElementById('monitoring').textContent = monitoring;
+
+        document.getElementById('result').classList.remove('d-none');
+        document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'center' });
 
         // اسکرول نرم
         const resultEl = document.getElementById('result');
